@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movies.Application.Abstractions.Persistence;
+using Movies.Domain.Constants;
 using Movies.Infrastructure.Configuration;
+using Movies.Infrastructure.HealthChecks;
 using Movies.Infrastructure.Interfaces.Services;
 using Movies.Infrastructure.Persistence.Database;
 using Movies.Infrastructure.Persistence.Repositories;
@@ -27,6 +29,14 @@ public static class InfrastructureServiceCollectionExtensions
 
         services.AddSingleton<DbInitializer>();
 
+        return services;
+    }
+    
+    public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services)
+    {
+        services.AddHealthChecks()
+            .AddCheck<CloudinaryHealthCheck>(ConfigurationKeys.Cloudinary)
+            .AddCheck<RedisHealthCheck>(ConfigurationKeys.Redis);
         return services;
     }
 

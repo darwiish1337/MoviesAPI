@@ -1,12 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "9nP8l+2+40Y=",
+  "dgSpecHash": "ua99/9OyjXI=",
   "success": true,
   "projectFilePath": "D:\\MoviesApp\\Movies.Application\\Movies.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Darwiish\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\Darwiish\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.0.0\\fluentvalidation.dependencyinjectionextensions.12.0.0.nupkg.sha512",
-    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
+    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0-preview.5.25277.114\\microsoft.extensions.dependencyinjection.abstractions.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0-preview.5.25277.114\\microsoft.extensions.logging.abstractions.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.extensions.options\\10.0.0-preview.5.25277.114\\microsoft.extensions.options.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.0-preview.5.25277.114\\microsoft.extensions.primitives.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0-preview.5.25277.114\\system.diagnostics.diagnosticsource.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512"
   ],
   "logs": []
 }

@@ -89,4 +89,24 @@ public static class ContractMapping
         options.UserId = userId;
         return options;         
     }
+    
+    public static ImageResponse MapToResponse(this MovieImage image)
+    {
+        return new ImageResponse
+        {
+            Id = image.Id,
+            MovieId = image.MovieId,
+            OriginalUrl = image.OriginalUrl,
+            ThumbnailUrl = image.ThumbnailUrl,
+            MediumUrl = image.MediumUrl,
+            LargeUrl = image.LargeUrl,
+            AltText = image.AltText,
+            Width = image.Width,
+            Height = image.Height,
+            Size = image.Size,
+            Format = image.Format,
+            IsPrimary = image.IsPrimary,
+            CreatedAt = image.CreatedAt
+        };
+    }
 }

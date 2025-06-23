@@ -10,6 +10,7 @@ D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.Genera
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.AssemblyInfoInputs.cache
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.AssemblyInfo.cs
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.csproj.CoreCompileInputs.cache
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.sourcelink.json
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.I.73F6CEB0.Up2Date
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.dll
 D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\refint\Movies.Infrastructure.dll

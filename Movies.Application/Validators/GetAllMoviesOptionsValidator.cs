@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Movies.Domain.Consts;
+using Movies.Domain.Constants;
 using Movies.Domain.Models;
 
 namespace Movies.Application.Validators;

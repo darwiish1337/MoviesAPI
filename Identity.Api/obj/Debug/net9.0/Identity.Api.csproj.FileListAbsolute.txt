@@ -12,6 +12,9 @@ D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens
 D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
 D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
+D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\MoviesApp\Identity.Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.csproj.AssemblyReference.cache
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\rpswa.dswa.cache.json
@@ -21,6 +24,7 @@ D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.AssemblyInfo.cs
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.csproj.CoreCompileInputs.cache
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.MvcApplicationPartsAssemblyInfo.cs
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.MvcApplicationPartsAssemblyInfo.cache
+D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.sourcelink.json
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\rjimswa.dswa.cache.json
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -29,12 +33,10 @@ D:\MoviesApp\Identity.Api\obj\Debug\net9.0\staticwebassets.build.json
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\staticwebassets.development.json
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\MoviesApp\Identity.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.416A3443.Up2Date
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.dll
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\refint\Identity.Api.dll
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.pdb
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\Identity.Api.genruntimeconfig.cache
 D:\MoviesApp\Identity.Api\obj\Debug\net9.0\ref\Identity.Api.dll
-D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\MoviesApp\Identity.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

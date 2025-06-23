@@ -80,33 +80,50 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory) : IMovieR
         using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
         var movie = await connection.QuerySingleOrDefaultAsync<Movie>(
             new CommandDefinition("""
-            select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating 
-            from movies m
-            left join ratings r on m.id = r.movieid
-            left join ratings myr on m.id = myr.movieid
-                and myr.userid = @userId
-            where id = @id
-            group by id, userrating
-            """, new { id, userId }, cancellationToken: cancellationToken));
+                                  select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating 
+                                  from movies m
+                                  left join ratings r on m.id = r.movieid
+                                  left join ratings myr on m.id = myr.movieid
+                                      and myr.userid = @userId
+                                  where id = @id
+                                  group by id, userrating
+                                  """, new { id, userId }, cancellationToken: cancellationToken));
 
         if (movie is null)
         {
             return null;
         }
-        
+    
         var genres = await connection.QueryAsync<string>(
             new CommandDefinition("""
-            select name from genres where movieid = @id 
-            """, new { id }, cancellationToken: cancellationToken));
+                                  select name from genres where movieid = @id 
+                                  """, new { id }, cancellationToken: cancellationToken));
 
         foreach (var genre in genres)
         {
             movie.Genres.Add(genre);
         }
 
+        // Load images
+        var images = await connection.QueryAsync<MovieImage>(
+            new CommandDefinition("""
+                                  SELECT id, movie_id as MovieId, public_id as PublicId, original_url as OriginalUrl, 
+                                         thumbnail_url as ThumbnailUrl, medium_url as MediumUrl, large_url as LargeUrl,
+                                         alt_text as AltText, width, height, size, format, is_primary as IsPrimary, 
+                                         created_at as CreatedAt, updated_at as UpdatedAt
+                                  FROM movie_images 
+                                  WHERE movie_id = @id
+                                  ORDER BY is_primary DESC, created_at ASC
+                                  """, new { id }, cancellationToken: cancellationToken));
+
+        foreach (var image in images)
+        {
+            movie.Images.Add(image);
+        }
+
         return movie;
     }
-
+    
     public async Task<Movie?> GetBySlugAsync(string slug, Guid? userId = null, CancellationToken cancellationToken = default)
     {
         using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);

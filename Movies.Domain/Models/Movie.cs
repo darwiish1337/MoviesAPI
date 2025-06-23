@@ -10,7 +10,7 @@ public partial class Movie
     private string _title = string.Empty;
     
     public required Guid Id { get; init; }
-
+    
     public required string Title
     {
         get => _title;
@@ -25,9 +25,14 @@ public partial class Movie
     
     public int? UserRating { get; set; }
 
-    public required List<string> Genres { get; init; } = new();
+    public required List<string> Genres { get; init; } = [];
     
+    public List<MovieImage> Images { get; init; } = [];
+    public MovieImage? PrimaryImage
+        => Images.FirstOrDefault(x => x.IsPrimary);
     
+
+    #region Private Methods
     private string GenerateSlug()
     {
         var sluggedTitle = SlugRegex()
@@ -52,5 +57,6 @@ public partial class Movie
 
         return cleaned;
     }
-
+    #endregion
+    
 }

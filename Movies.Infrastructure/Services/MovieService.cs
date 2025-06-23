@@ -27,7 +27,7 @@ public class MovieService(IMovieRepository movieRepository, IValidator<Movie> mo
             {
                 await movieValidator.ValidateAndThrowAsync(movie, ct);
 
-                var success = await movieRepository.CreateBulkAsync(movie, ct);
+                await movieRepository.CreateBulkAsync(movie, ct);
 
                 results.Add(new MovieBulkCreationResponse
                 {

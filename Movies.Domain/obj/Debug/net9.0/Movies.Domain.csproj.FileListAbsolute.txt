@@ -5,6 +5,7 @@ D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.GeneratedMSBuildEditor
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.AssemblyInfoInputs.cache
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.AssemblyInfo.cs
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.csproj.CoreCompileInputs.cache
+D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.sourcelink.json
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.dll
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\refint\Movies.Domain.dll
 D:\MoviesApp\Movies.Domain\obj\Debug\net9.0\Movies.Domain.pdb

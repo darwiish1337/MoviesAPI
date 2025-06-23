@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Movies.Application.DTOs.Requests;
 using Movies.Application.Mapping;
-using Movies.Domain.Consts;
+using Movies.Domain.Constants;
 using Movies.Infrastructure.Interfaces.Services;
 using Movies.Presentation.Auth;
 

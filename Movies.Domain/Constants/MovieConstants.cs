@@ -1,4 +1,4 @@
-﻿namespace Movies.Domain.Consts;
+﻿namespace Movies.Domain.Constants;
 
 public static class MovieConstants
 {
