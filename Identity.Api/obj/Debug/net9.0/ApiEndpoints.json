@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "Identity.Api.Controllers.IdentityController",
+    "Method": "GenerateToken",
+    "RelativePath": "token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Identity.Api.TokenGenerationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

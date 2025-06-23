@@ -1,0 +1,15 @@
+D:\MoviesApp\Movies.Application\bin\Debug\net9.0\Movies.Application.deps.json
+D:\MoviesApp\Movies.Application\bin\Debug\net9.0\Movies.Application.dll
+D:\MoviesApp\Movies.Application\bin\Debug\net9.0\Movies.Application.pdb
+D:\MoviesApp\Movies.Application\bin\Debug\net9.0\Movies.Domain.dll
+D:\MoviesApp\Movies.Application\bin\Debug\net9.0\Movies.Domain.pdb
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.csproj.AssemblyReference.cache
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.AssemblyInfoInputs.cache
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.AssemblyInfo.cs
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.csproj.CoreCompileInputs.cache
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.A.4F942C5D.Up2Date
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.dll
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\refint\Movies.Application.dll
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\Movies.Application.pdb
+D:\MoviesApp\Movies.Application\obj\Debug\net9.0\ref\Movies.Application.dll

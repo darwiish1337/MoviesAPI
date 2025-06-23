@@ -1,0 +1,17 @@
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Infrastructure.deps.json
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Infrastructure.dll
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Infrastructure.pdb
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Application.dll
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Domain.dll
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Application.pdb
+D:\MoviesApp\Movies.Infrastructure\bin\Debug\net9.0\Movies.Domain.pdb
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.csproj.AssemblyReference.cache
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.AssemblyInfoInputs.cache
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.AssemblyInfo.cs
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.csproj.CoreCompileInputs.cache
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.I.73F6CEB0.Up2Date
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.dll
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\refint\Movies.Infrastructure.dll
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\Movies.Infrastructure.pdb
+D:\MoviesApp\Movies.Infrastructure\obj\Debug\net9.0\ref\Movies.Infrastructure.dll
