@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.Application.DTOs.Requests;
 using Movies.Application.Mapping;
@@ -9,6 +10,7 @@ using Movies.Presentation.Auth;
 namespace Movies.Presentation.Controllers;
 
 [ApiController]
+[ApiVersion(1.0)]
 public class RatingsController(IRatingService ratingService) : ControllerBase
 {
     [Authorize]

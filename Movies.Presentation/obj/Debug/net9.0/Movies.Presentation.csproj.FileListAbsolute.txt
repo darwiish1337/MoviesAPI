@@ -6,6 +6,11 @@ D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Presentation.deps.json
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Presentation.runtimeconfig.json
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Presentation.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Presentation.pdb
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Presentation.xml
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Abstractions.dll
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Http.dll
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Mvc.dll
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Mvc.ApiExplorer.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\CloudinaryDotNet.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Dapper.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\FluentValidation.dll
@@ -43,8 +48,11 @@ D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Application.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Domain.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Infrastructure.dll
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Application.pdb
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Application.xml
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Infrastructure.pdb
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Infrastructure.xml
 D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Domain.pdb
+D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Movies.Domain.xml
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.csproj.AssemblyReference.cache
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\rpswa.dswa.cache.json
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.GeneratedMSBuildEditorConfig.editorconfig
@@ -65,10 +73,7 @@ D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\staticwebassets.build.endpoint
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.P.7ED9FB3C.Up2Date
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.dll
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\refint\Movies.Presentation.dll
+D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.xml
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.pdb
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\Movies.Presentation.genruntimeconfig.cache
 D:\MoviesApp\Movies.Presentation\obj\Debug\net9.0\ref\Movies.Presentation.dll
-D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Abstractions.dll
-D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Http.dll
-D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Mvc.dll
-D:\MoviesApp\Movies.Presentation\bin\Debug\net9.0\Asp.Versioning.Mvc.ApiExplorer.dll

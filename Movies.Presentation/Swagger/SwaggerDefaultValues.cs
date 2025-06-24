@@ -13,14 +13,16 @@ public class SwaggerDefaultValues : IOperationFilter
 
         operation.Deprecated |= apiDescription.IsDeprecated();
 
-        foreach (var responseType in context.ApiDescription.SupportedResponseTypes)
+        foreach (var responseType in apiDescription.SupportedResponseTypes)
         {
             var responseKey = responseType.IsDefaultResponse
                 ? "default"
                 : responseType.StatusCode.ToString();
-            var response = operation.Responses[responseKey];
 
-            foreach (var contentType in response.Content.Keys)
+            if (!operation.Responses.TryGetValue(responseKey, out var response))
+                continue;
+
+            foreach (var contentType in response.Content.Keys.ToList())
             {
                 if (responseType.ApiResponseFormats.All(x => x.MediaType != contentType))
                 {
@@ -30,26 +32,36 @@ public class SwaggerDefaultValues : IOperationFilter
         }
 
         if (operation.Parameters == null)
-        {
             return;
-        }
 
         foreach (var parameter in operation.Parameters)
         {
             var description = apiDescription.ParameterDescriptions
-                .First(p => p.Name == parameter.Name);
+                .FirstOrDefault(p => p.Name == parameter.Name);
 
-            parameter.Description ??= description.ModelMetadata.Description;
+            if (description == null)
+                continue;
 
-            if (parameter.Schema.Default == null && description.DefaultValue != null)
+            parameter.Description ??= description.ModelMetadata?.Description;
+
+            if (parameter.Schema.Default == null 
+                && description is { DefaultValue: not null, ModelMetadata.ModelType: not null })
             {
-                var json = JsonSerializer.Serialize(
-                    description.DefaultValue,
-                    description.ModelMetadata!.ModelType);
-                parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
+                try
+                {
+                    var json = JsonSerializer.Serialize(
+                        description.DefaultValue,
+                        description.ModelMetadata.ModelType);
+
+                    parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
+                }
+                catch
+                {
+                    // تجاهل الأخطاء لو serialization فشل
+                }
             }
 
-            parameter.Required |= description.IsRequired;
+            parameter.Required |= description.ModelMetadata?.IsRequired ?? false;
         }
     }
 }

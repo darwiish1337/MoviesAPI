@@ -1,7 +1,3 @@
-using System.Text;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Movies.Application.Extension;
 using Movies.Domain.Constants;
 using Movies.Infrastructure.BackgroundServices;
@@ -17,49 +13,18 @@ var config = builder.Configuration;
 // -----------------------------
 // Authentication Configuration
 // -----------------------------
-var jwtSettings = config.GetSection(ConfigurationKeys.Jwt).Get<JwtSettings>()!;
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidIssuer = jwtSettings.Issuer,
-        ValidAudience = jwtSettings.Audience,
-        ValidateLifetime = true
-    };
-});
+builder.Services.AddJwtAuthentication(config);
 
 // -----------------------------
 // Authorization Policies
 // -----------------------------
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(AuthConstants.AdminUserPolicyName, p =>
-        p.RequireClaim(AuthConstants.AdminUserClaimName, AuthClaimValues.True))
-    .AddPolicy(AuthConstants.TrustedMemberPolicyName, p =>
-        p.RequireAssertion(c =>
-            c.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: AuthClaimValues.True }) ||
-            c.User.HasClaim(m => m is { Type: AuthConstants.TrustedMemberClaimName, Value: AuthClaimValues.True })));
+builder.Services.AddAuthorizationPolicies();
 
 // -----------------------------
 // API Versioning
 // -----------------------------
-builder.Services.AddApiVersioning(x =>
-{
-    x.DefaultApiVersion = new ApiVersion(1.0);
-    x.AssumeDefaultVersionWhenUnspecified = true;
-    x.ReportApiVersions = true;
-    x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
-}).AddMvc().AddApiExplorer();
+builder.Services.AddApiVersioningSupport();
+builder.Services.AddEndpointsApiExplorer();
 
 // -----------------------------
 // Controllers

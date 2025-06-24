@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.Application.DTOs.Requests;
 using Movies.Application.Mapping;
 using Movies.Domain.Constants;
 using Movies.Infrastructure.Interfaces.Services;
 using Movies.Presentation.Auth;
-using Movies.Presentation.Interfaces;
 using Movies.Presentation.Mapping;
+using ILinkBuilder = Movies.Presentation.Interfaces.ILinkBuilder;
 
 namespace Movies.Presentation.Controllers;
 
 [ApiController]
+[ApiVersion(1.0)]
 public class MoviesController(IMovieService movieService) : ControllerBase
 {
     [Authorize(AuthConstants.TrustedMemberPolicyName)]

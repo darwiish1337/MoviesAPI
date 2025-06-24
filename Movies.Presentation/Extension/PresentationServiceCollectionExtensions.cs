@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text;
+using Microsoft.Extensions.Options;
 using Movies.Application.Abstractions.Caching;
 using Movies.Application.Abstractions.Persistence;
 using Movies.Application.Abstractions.Services;
@@ -8,12 +9,15 @@ using Movies.Infrastructure.Configuration;
 using Movies.Infrastructure.Persistence.Repositories;
 using Movies.Infrastructure.Services;
 using Movies.Infrastructure.Validators;
-using Movies.Presentation.Interfaces;
 using Movies.Presentation.Services;
 using StackExchange.Redis;
 using System.Threading.RateLimiting;
+using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Movies.Domain.Constants;
 using Movies.Presentation.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using ILinkBuilder = Movies.Presentation.Interfaces.ILinkBuilder;
 
 namespace Movies.Presentation.Extension;
 
@@ -88,8 +92,91 @@ public static class PresentationServiceCollectionExtensions
     
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
     {
-        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-        services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
+        services.AddSwaggerGen(options =>
+        {
+            options.OperationFilter<SwaggerDefaultValues>();
+
+            var xmlFileNames = new[]
+            {
+                "Movies.Presentation.xml",
+                "Movies.Application.xml",
+                "Movies.Domain.xml",
+                "Movies.Infrastructure.xml"
+            };
+
+            var availableXmlFiles = xmlFileNames
+                .Select(file => Path.Combine(AppContext.BaseDirectory, file))
+                .Where(File.Exists)
+                .ToList();
+
+            foreach (var path in availableXmlFiles)
+            {
+                options.IncludeXmlComments(path);
+            }
+
+            // Register SwaggerTagDescriptionsFilter with paths
+            options.DocumentFilter<SwaggerTagDescriptionsFilter>(new object[] { availableXmlFiles });
+        });
+
         return services;
     }
+    
+    public static IServiceCollection AddApiVersioningSupport(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+        return services;
+    }
+    
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtSettings = configuration.GetSection(ConfigurationKeys.Jwt).Get<JwtSettings>()!;
+
+        services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateLifetime = true
+                };
+            });
+
+        return services;
+    }
+
+    public static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
+    {
+        services.AddAuthorizationBuilder()
+            .AddPolicy(AuthConstants.AdminUserPolicyName, p =>
+                p.RequireClaim(AuthConstants.AdminUserClaimName, AuthClaimValues.True))
+            .AddPolicy(AuthConstants.TrustedMemberPolicyName, p =>
+                p.RequireAssertion(c =>
+                    c.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: AuthClaimValues.True }) ||
+                    c.User.HasClaim(m => m is { Type: AuthConstants.TrustedMemberClaimName, Value: AuthClaimValues.True })));
+
+        return services;
+    }
+
 }

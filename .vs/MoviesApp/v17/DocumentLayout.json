@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\MoviesApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EEB6D50F-10F0-4B46-8BE5-7DD28EA58108}|Movies.Presentation\\Movies.Presentation.csproj|d:\\moviesapp\\movies.presentation\\swagger\\swaggertagdescriptionsfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEB6D50F-10F0-4B46-8BE5-7DD28EA58108}|Movies.Presentation\\Movies.Presentation.csproj|solutionrelative:movies.presentation\\swagger\\swaggertagdescriptionsfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEB6D50F-10F0-4B46-8BE5-7DD28EA58108}|Movies.Presentation\\Movies.Presentation.csproj|d:\\moviesapp\\movies.presentation\\extension\\presentationservicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEB6D50F-10F0-4B46-8BE5-7DD28EA58108}|Movies.Presentation\\Movies.Presentation.csproj|solutionrelative:movies.presentation\\extension\\presentationservicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,6 +83,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PresentationServiceCollectionExtensions.cs",
+              "DocumentMoniker": "D:\\MoviesApp\\Movies.Presentation\\Extension\\PresentationServiceCollectionExtensions.cs",
+              "RelativeDocumentMoniker": "Movies.Presentation\\Extension\\PresentationServiceCollectionExtensions.cs",
+              "ToolTip": "D:\\MoviesApp\\Movies.Presentation\\Extension\\PresentationServiceCollectionExtensions.cs",
+              "RelativeToolTip": "Movies.Presentation\\Extension\\PresentationServiceCollectionExtensions.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T12:22:01.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SwaggerTagDescriptionsFilter.cs",
+              "DocumentMoniker": "D:\\MoviesApp\\Movies.Presentation\\Swagger\\SwaggerTagDescriptionsFilter.cs",
+              "RelativeDocumentMoniker": "Movies.Presentation\\Swagger\\SwaggerTagDescriptionsFilter.cs",
+              "ToolTip": "D:\\MoviesApp\\Movies.Presentation\\Swagger\\SwaggerTagDescriptionsFilter.cs",
+              "RelativeToolTip": "Movies.Presentation\\Swagger\\SwaggerTagDescriptionsFilter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T12:21:56.788Z",
+              "EditorCaption": ""
             }
           ]
         }
