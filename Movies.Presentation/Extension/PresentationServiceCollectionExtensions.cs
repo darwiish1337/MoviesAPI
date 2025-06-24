@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Movies.Application.Abstractions.Caching;
 using Movies.Application.Abstractions.Persistence;
 using Movies.Application.Abstractions.Services;
-using Movies.Application.Services;
 using Movies.Infrastructure.Caching;
 using Movies.Infrastructure.Configuration;
 using Movies.Infrastructure.Persistence.Repositories;
@@ -44,10 +43,10 @@ public static class PresentationServiceCollectionExtensions
         });
 
         // Register services
-        services.AddScoped<ICloudinaryService, CloudinaryService>();
-        services.AddScoped<ICacheService, RedisCacheService>();
-        services.AddScoped<IImageService, ImageService>();
-        services.AddScoped<IMovieImageRepository, MovieImageRepository>();
+        services.AddSingleton<ICloudinaryService, CloudinaryService>();
+        services.AddSingleton<ICacheService, RedisCacheService>();
+        services.AddSingleton<IImageService, ImageService>();
+        services.AddSingleton<IMovieImageRepository, MovieImageRepository>();
 
         return services;
     }

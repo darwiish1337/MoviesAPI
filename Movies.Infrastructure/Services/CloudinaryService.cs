@@ -68,7 +68,7 @@ public class CloudinaryService : ICloudinaryService
         return new Domain.ValueObjects.DeletionResult
         {
             Result = cloudinaryResult.Result,
-            Error = cloudinaryResult.Error != null ? cloudinaryResult.Error.Message : null
+            Error = cloudinaryResult.Error?.Message
         };
     }
 

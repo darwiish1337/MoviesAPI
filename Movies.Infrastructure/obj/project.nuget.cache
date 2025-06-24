@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "MuJ8FGgLDUY=",
+  "dgSpecHash": "bsEWcM3RA8c=",
   "success": true,
   "projectFilePath": "D:\\MoviesApp\\Movies.Infrastructure\\Movies.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Darwiish\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\9.0.0\\aspnetcore.healthchecks.ui.client.9.0.0.nupkg.sha512",
+    "C:\\Users\\Darwiish\\.nuget\\packages\\aspnetcore.healthchecks.ui.core\\9.0.0\\aspnetcore.healthchecks.ui.core.9.0.0.nupkg.sha512",
     "C:\\Users\\Darwiish\\.nuget\\packages\\cloudinarydotnet\\1.27.6\\cloudinarydotnet.1.27.6.nupkg.sha512",
     "C:\\Users\\Darwiish\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\Darwiish\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",

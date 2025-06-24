@@ -9,10 +9,17 @@ public static class ApplicationServiceCollectionExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<IBulkImageService, BulkImageService>();
-        
-        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+        services.AddSingleton<IBulkMovieService, BulkMovieService>();
+        services.AddSingleton<IMovieService, MovieService>();
+        services.AddSingleton<IRatingService, RatingService>();
         
         return services;    
+    }
+
+    public static IServiceCollection AddValidationLayer(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+
+        return services;   
     }
 }

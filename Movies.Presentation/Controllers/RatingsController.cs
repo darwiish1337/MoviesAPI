@@ -1,10 +1,10 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Movies.Application.Abstractions.Services;
 using Movies.Application.DTOs.Requests;
 using Movies.Application.Mapping;
 using Movies.Domain.Constants;
-using Movies.Infrastructure.Interfaces.Services;
 using Movies.Presentation.Auth;
 
 namespace Movies.Presentation.Controllers;

@@ -1,6 +1,6 @@
 ﻿using Movies.Domain.Models;
 
-namespace Movies.Infrastructure.Interfaces.Services;
+namespace Movies.Application.Abstractions.Services;
 
 public interface IRatingService
 {

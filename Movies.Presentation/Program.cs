@@ -1,3 +1,6 @@
+
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Movies.Application.Extension;
 using Movies.Domain.Constants;
 using Movies.Infrastructure.BackgroundServices;
@@ -68,6 +71,7 @@ builder.Services.AddImageManagement(config);
 // -----------------------------
 // Validation (FluentValidation)
 // -----------------------------
+builder.Services.AddValidationLayer();
 builder.Services.AddValidation();
 
 // -----------------------------
@@ -80,7 +84,10 @@ var app = builder.Build();
 // -----------------------------
 // Map Health Checks Endpoint
 // -----------------------------
-app.MapHealthChecks("/_health");
+app.MapHealthChecks(HealthCheckConstants.HealthCheckEndpoint, new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 // -----------------------------
 // Development Tools (Swagger)

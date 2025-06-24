@@ -11,7 +11,7 @@ using Movies.Domain.Exceptions;
 using Movies.Domain.Models;
 using Movies.Domain.ValueObjects;
 
-namespace Movies.Application.Services;
+namespace Movies.Infrastructure.Services;
 
 public class BulkImageService(IMovieImageRepository imageRepository, IMovieRepository movieRepository, ICloudinaryService cloudinaryService,
     ICacheService cacheService, IValidator<ImageUploadRequest> imageUploadValidator, ILogger<BulkImageService> logger) : IBulkImageService

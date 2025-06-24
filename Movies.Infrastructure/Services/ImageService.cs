@@ -11,7 +11,7 @@ using Movies.Domain.Exceptions;
 using Movies.Domain.Models;
 using Movies.Domain.ValueObjects;
 
-namespace Movies.Application.Services;
+namespace Movies.Infrastructure.Services;
 
 public class ImageService(IMovieImageRepository imageRepository, IMovieRepository movieRepository, ICloudinaryService cloudinaryService,
     ICacheService cacheService, ILogger<ImageService> logger, IValidator<ImageUploadRequest> imageUploadValidator) : IImageService

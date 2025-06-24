@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Movies.Application.Abstractions.Persistence;
+using Movies.Application.Abstractions.Services;
 using Movies.Domain.Models;
-using Movies.Infrastructure.Interfaces.Services;
 
-namespace Movies.Infrastructure.Services;
+namespace Movies.Application.Services;
 
 public class RatingService(IRatingRepository ratingRepository, IMovieRepository movieRepository)
     : IRatingService
