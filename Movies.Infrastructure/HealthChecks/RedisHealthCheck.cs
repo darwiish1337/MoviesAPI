@@ -5,7 +5,6 @@ namespace Movies.Infrastructure.HealthChecks;
 
 public class RedisHealthCheck(IConnectionMultiplexer connectionMultiplexer) : IHealthCheck
 {
-    private const string HealthCheckName = "RedisHealthCheck";
     private readonly IConnectionMultiplexer _connectionMultiplexer = connectionMultiplexer;
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)

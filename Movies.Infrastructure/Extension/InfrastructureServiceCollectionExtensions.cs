@@ -31,9 +31,22 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services)
     {
         services.AddHealthChecks()
-                .AddCheck<CloudinaryHealthCheck>(HealthCheckConstants.CloudinaryHealthCheck)
-                .AddCheck<RedisHealthCheck>(HealthCheckConstants.RedisHealthCheck)
-                .AddCheck<DatabaseHealthCheck>(HealthCheckConstants.DatabaseHealthCheck);
+            .AddCheck<CloudinaryHealthCheck>(
+                HealthCheckConstants.CloudinaryHealthCheck,
+                tags: ["cloudinary", "storage"])
+
+            .AddCheck<RedisHealthCheck>(
+                HealthCheckConstants.RedisHealthCheck,
+                tags: ["redis", "cache"])
+
+            .AddCheck<DatabaseHealthCheck>(
+                HealthCheckConstants.DatabaseHealthCheck,
+                tags: ["db"])
+
+            .AddCheck<MovieModuleHealthCheck>(
+                HealthCheckConstants.MovieModuleHealthCheck,
+                tags: ["movie"]);
+
         return services;
     }
 }

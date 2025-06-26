@@ -3,6 +3,7 @@ using Movies.Application.Abstractions.Persistence;
 using Movies.Domain.Enums;
 using Movies.Domain.Models;
 using Movies.Infrastructure.Persistence.Database;
+using Npgsql;
 
 namespace Movies.Infrastructure.Persistence.Repositories;
 
@@ -205,62 +206,164 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory) : IMovieR
             Genres = Enumerable.ToList((x.genres ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries))
         });
     }
-
+    
     public async Task<bool> UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
     {
-        using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
-        using var transaction = connection.BeginTransaction();
-        
-        await connection.ExecuteAsync(new CommandDefinition("""
-            delete from genres where movieid = @id
-            """, new { id = movie.Id }, cancellationToken: cancellationToken));
-        
+    using var rawConnection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
+    var connection = (NpgsqlConnection)rawConnection;
+
+    await connection.OpenAsync(cancellationToken);
+    await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
+
+    try
+    {
+        // Lock the movie row to prevent concurrent updates
+        var lockedId = await connection.ExecuteScalarAsync<Guid?>(
+            new CommandDefinition("""
+                SELECT id FROM movies
+                WHERE id = @Id
+                FOR UPDATE;
+            """, new { movie.Id }, transaction: transaction, cancellationToken: cancellationToken));
+
+        // If the movie doesn't exist, rollback early
+        if (lockedId is null)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            return false;
+        }
+
+        // Delete existing genres for this movie to replace with the new ones
+        await connection.ExecuteAsync(
+            new CommandDefinition("""
+                DELETE FROM genres WHERE movieid = @Id;
+            """, new { movie.Id }, transaction: transaction, cancellationToken: cancellationToken));
+
+        // Insert the updated genres
         foreach (var genre in movie.Genres)
         {
-            await connection.ExecuteAsync(new CommandDefinition("""
-                    insert into genres (movieId, name) 
-                    values (@MovieId, @Name)
-                    """, new { MovieId = movie.Id, Name = genre }, cancellationToken: cancellationToken));
+            await connection.ExecuteAsync(
+                new CommandDefinition("""
+                    INSERT INTO genres (movieid, name)
+                    VALUES (@MovieId, @Name);
+                """, new { MovieId = movie.Id, Name = genre }, transaction: transaction, cancellationToken: cancellationToken));
         }
-        
-        var result = await connection.ExecuteAsync(new CommandDefinition("""
-            update movies set slug = @Slug, title = @Title, yearofrelease = @YearOfRelease 
-            where id = @Id
-            """, movie, cancellationToken: cancellationToken));
-        
-        transaction.Commit();
+
+        // Update the main movie data
+        var result = await connection.ExecuteAsync(
+            new CommandDefinition("""
+                UPDATE movies
+                SET slug = @Slug,
+                    title = @Title,
+                    yearofrelease = @YearOfRelease
+                WHERE id = @Id;
+            """, movie, transaction: transaction, cancellationToken: cancellationToken));
+
+        await transaction.CommitAsync(cancellationToken);
         return result > 0;
+    }
+    catch
+    {
+        await transaction.RollbackAsync(cancellationToken);
+        throw;
+    }
     }
 
     public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
-        using var transaction = connection.BeginTransaction();
-        
-        await connection.ExecuteAsync(new CommandDefinition("""
-            delete from genres where movieid = @id
-            """, new { id }, cancellationToken: cancellationToken));
-        
-        var result = await connection.ExecuteAsync(new CommandDefinition("""
-            delete from movies where id = @id
-            """, new { id }, cancellationToken: cancellationToken));
-        
-        transaction.Commit();
-        return result > 0;
+        using var rawConnection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
+        var connection = (NpgsqlConnection)rawConnection;
+
+        await connection.OpenAsync(cancellationToken);
+        await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
+
+        try
+        {
+            // Lock the target movie row to prevent concurrent modifications
+            var existingId = await connection.ExecuteScalarAsync<Guid?>(
+                new CommandDefinition("""
+                                          SELECT id FROM movies
+                                          WHERE id = @id
+                                          FOR UPDATE;
+                                      """, new { id }, transaction: transaction, cancellationToken: cancellationToken));
+
+            // If the movie doesn't exist, rollback and return
+            if (existingId is null)
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                return false;
+            }
+
+            // First delete related genre entries (child rows)
+            await connection.ExecuteAsync(
+                new CommandDefinition("""
+                                          DELETE FROM genres WHERE movieid = @id;
+                                      """, new { id }, transaction: transaction, cancellationToken: cancellationToken));
+
+            // Then delete the movie itself (parent row)
+            var result = await connection.ExecuteAsync(
+                new CommandDefinition("""
+                                          DELETE FROM movies WHERE id = @id;
+                                      """, new { id }, transaction: transaction, cancellationToken: cancellationToken));
+
+            // Commit the transaction if all operations succeeded
+            await transaction.CommitAsync(cancellationToken);
+            return result > 0;
+        }
+        catch
+        {
+            // Roll back if any exception occurs
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
     
     public async Task<bool> DeleteBulkAsync(List<Guid> ids, CancellationToken ct = default)
     {
-        using var connection = await dbConnectionFactory.CreateConnectionAsync(ct);
-        using var transaction = connection.BeginTransaction();
+        using var rawConnection = await dbConnectionFactory.CreateConnectionAsync(ct);
+        var connection = (NpgsqlConnection)rawConnection;
 
-         var result = await connection.ExecuteAsync("""
+        await connection.OpenAsync(ct);
+        await using var transaction = await connection.BeginTransactionAsync(ct);
+
+        try
+        {
+            // Lock all movie rows to be deleted to prevent concurrent operations
+            var lockedIds = await connection.QueryAsync<Guid>(
+                new CommandDefinition("""
+                                          SELECT id FROM movies
+                                          WHERE id IN @Ids
+                                          FOR UPDATE;
+                                      """, new { Ids = ids }, transaction: transaction, cancellationToken: ct));
+
+            // If no matching movies found, rollback early
+            if (!lockedIds.Any())
+            {
+                await transaction.RollbackAsync(ct);
+                return false;
+            }
+
+            // Delete all genres associated with the locked movie IDs
+            await connection.ExecuteAsync(
+                new CommandDefinition("""
                                           DELETE FROM genres WHERE movieId IN @Ids;
-                                          DELETE FROM movies WHERE id IN @Ids;
-                                      """, new { Ids = ids }, transaction);
+                                      """, new { Ids = ids }, transaction: transaction, cancellationToken: ct));
 
-        transaction.Commit();
-        return result > 0;
+            // Delete the movies themselves
+            var result = await connection.ExecuteAsync(
+                new CommandDefinition("""
+                                          DELETE FROM movies WHERE id IN @Ids;
+                                      """, new { Ids = ids }, transaction: transaction, cancellationToken: ct));
+
+            // Commit the transaction after successful delete
+            await transaction.CommitAsync(ct);
+            return result > 0;
+        }
+        catch
+        {
+            // Roll back the transaction on any error
+            await transaction.RollbackAsync(ct);
+            throw;
+        }
     }
 
     public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)

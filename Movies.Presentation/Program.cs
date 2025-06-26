@@ -1,6 +1,3 @@
-
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Movies.Application.Extension;
 using Movies.Domain.Constants;
 using Movies.Infrastructure.BackgroundServices;
@@ -84,10 +81,7 @@ var app = builder.Build();
 // -----------------------------
 // Map Health Checks Endpoint
 // -----------------------------
-app.MapHealthChecks(HealthCheckConstants.HealthCheckEndpoint, new HealthCheckOptions
-{
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+app.MapDynamicHealthCheck();
 
 // -----------------------------
 // Development Tools (Swagger)

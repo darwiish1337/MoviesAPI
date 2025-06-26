@@ -6,6 +6,7 @@ using Movies.Application.DTOs.Requests;
 using Movies.Application.DTOs.Responses;
 using Movies.Domain.Constants;
 using Movies.Domain.Exceptions;
+using Movies.Domain.Models;
 
 namespace Movies.Presentation.Controllers;
 
@@ -103,7 +104,7 @@ public class MovieImagesController(IImageService imageService, IBulkImageService
             IsPrimary = false
         });
 
-        var result = await bulkImageService.UploadMultipleImagesAsync(uploadRequests, cancellationToken);
+        var result = await bulkImageService.UploadImagesAsync(uploadRequests, cancellationToken);
         return Ok(result);
     }
 
@@ -278,8 +279,48 @@ public class MovieImagesController(IImageService imageService, IBulkImageService
                 return BadRequest($"Image {imageId} does not belong to the specified movie");
         }
 
-        var success = await bulkImageService.DeleteMultipleImagesAsync(imageIds, cancellationToken);
+        var success = await bulkImageService.DeleteImagesAsync(imageIds, cancellationToken);
         return success ? NoContent() : StatusCode(500, "One or more images could not be deleted");
+    }
+    
+    /// <summary>
+    /// Updates multiple images associated with a specific movie.
+    /// </summary>
+    /// <param name="id">The ID of the movie.</param>
+    /// <param name="images">List of image models to update.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+    /// <returns>No content if successful, otherwise an error response.</returns>
+    [HttpPut(ApiEndpoints.MovieImages.BulkUpdate)]
+    public async Task<IActionResult> UpdateImages(Guid id, [FromBody] List<MovieImage> images, CancellationToken cancellationToken)
+    {
+        if (images.Count == 0)
+        {
+            return BadRequest("No images provided");
+        }
+
+        // Validate that all images belong to the specified movie
+        foreach (var image in images)
+        {
+            if (image.MovieId != id)
+            {
+                return BadRequest($"Image {image.Id} does not belong to the specified movie");
+            }
+        }
+
+        try
+        {
+            var success = await bulkImageService.UpdateImagesAsync(images, cancellationToken);
+            return success ? NoContent() : StatusCode(500, "One or more images could not be updated");
+        }
+        catch (ImageUploadException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Unexpected error while updating images for movie {MovieId}", id);
+            return StatusCode(500, "Unexpected error occurred");
+        }
     }
 
 }

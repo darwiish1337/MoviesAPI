@@ -5,7 +5,6 @@ namespace Movies.Infrastructure.HealthChecks;
 
 public class CloudinaryHealthCheck(ICloudinaryService cloudinaryService) : IHealthCheck
 {
-    private const string HealthCheckName = "CloudinaryHealthCheck";
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         try

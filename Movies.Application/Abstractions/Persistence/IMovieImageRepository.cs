@@ -25,4 +25,6 @@ public interface IMovieImageRepository
     Task<bool> CreateManyAsync(IEnumerable<MovieImage> images, CancellationToken cancellationToken = default);
 
     Task<bool> DeleteManyAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default);
+
+    Task<bool> UpdateManyAsync(IEnumerable<MovieImage> images, CancellationToken cancellationToken = default);
 }

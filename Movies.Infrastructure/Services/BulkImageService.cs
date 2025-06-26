@@ -16,7 +16,7 @@ namespace Movies.Infrastructure.Services;
 public class BulkImageService(IMovieImageRepository imageRepository, IMovieRepository movieRepository, ICloudinaryService cloudinaryService,
     ICacheService cacheService, IValidator<ImageUploadRequest> imageUploadValidator, ILogger<BulkImageService> logger) : IBulkImageService
 {
-    public async Task<IEnumerable<ImageResponse>> UploadMultipleImagesAsync(IEnumerable<ImageUploadRequest> requests, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ImageResponse>> UploadImagesAsync(IEnumerable<ImageUploadRequest> requests, CancellationToken cancellationToken = default)
     {
         var uploadedImages = new List<ImageResponse>();
 
@@ -83,7 +83,7 @@ public class BulkImageService(IMovieImageRepository imageRepository, IMovieRepos
         return uploadedImages;
     }
 
-    public async Task<bool> DeleteMultipleImagesAsync(IEnumerable<Guid>? imageIds, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteImagesAsync(IEnumerable<Guid>? imageIds, CancellationToken cancellationToken = default)
     {
         var allSucceeded = true;
 
@@ -133,4 +133,37 @@ public class BulkImageService(IMovieImageRepository imageRepository, IMovieRepos
         return allSucceeded;
     }
     
+    public async Task<bool> UpdateImagesAsync(IEnumerable<MovieImage> images, CancellationToken cancellationToken = default)
+    {
+        if (images == null || !images.Any())
+            return false;
+
+        // Validate all images first (optional)
+        foreach (var image in images)
+        {
+            if (image.MovieId == Guid.Empty || image.Id == Guid.Empty)
+                throw new ImageUploadException("Image ID and Movie ID must be valid.");
+        }
+
+        // Perform bulk update in DB
+        var success = await imageRepository.UpdateManyAsync(images, cancellationToken);
+        if (!success)
+        {
+            throw new ImageUploadException("Failed to update images in the database");
+        }
+
+        // Optional: Update cache for each image
+        foreach (var image in images)
+        {
+            var cacheKey = $"{ImageConstants.CacheKeyPrefix}:{image.Id}";
+            await cacheService.SetAsync(cacheKey, image, TimeSpan.FromHours(24), cancellationToken);
+
+            // Invalidate related movie image group cache
+            await cacheService.RemoveByPatternAsync($"{ImageConstants.CacheKeyPrefix}:movie:{image.MovieId}:*", cancellationToken);
+        }
+
+        logger.LogInformation("Successfully updated {Count} images", images.Count());
+
+        return true;
+    }
 }

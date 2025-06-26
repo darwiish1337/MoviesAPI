@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Movies.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ada6ee4771f1c58601d89b183814a96529f7961")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a18edd071142f89a806a0d15c8a8b3674f7f2a6d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Movies.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Movies.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -43,9 +43,12 @@ public static class ApiEndpoints
         
         public const string Update = $"{Base}/{{id:guid}}/images/{{imageId}}";
         
+        public const string BulkUpdate = Base + "/{id:guid}/images/bulk";
+        
         public const string Delete = $"{Base}/{{id:guid}}/images/{{imageId}}";
         
-        public const string BulkDelete = $"{Base}/{{id:guid}}/images/{{imageId}}/bulk";
-        
+        public const string BulkDelete = $"{Base}/{{id:guid}}/images/bulk";
+
+        //public const string BulkDelete = $"{Base}/{{id:guid}}/images/{{imageId}}/bulk";
     }
 }
