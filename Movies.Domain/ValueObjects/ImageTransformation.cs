@@ -2,8 +2,8 @@
 
 public record ImageTransformation
 {
-    public int? Width { get; init; }
-    public int? Height { get; init; }
+    public int? Width { get; private init; }
+    public int? Height { get; private init; }
     
     public string? Quality { get; init; } = "auto";
     

@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Movies.Application.Abstractions.Services;
 using Movies.Application.DTOs.Requests;
 using Movies.Application.Mapping;
@@ -13,7 +14,7 @@ namespace Movies.Presentation.Controllers;
 
 [ApiController]
 [ApiVersion(1.0)]
-public class MoviesController(IMovieService movieService, IBulkMovieService bulkMovieService) : ControllerBase
+public class MoviesController(IMovieService movieService, IBulkMovieService bulkMovieService, IOutputCacheStore outputCacheStore) : ControllerBase
 {
     [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(ApiEndpoints.Movies.Create)]
@@ -21,7 +22,7 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
     {
         var movie = request.MapToMovie();
         await movieService.CreateAsync(movie, cancellationToken);
-        
+        await outputCacheStore.EvictByTagAsync(CacheKeys.MoviesTag, cancellationToken);
         return CreatedAtAction(nameof(GetMovie), new { idOrSlug = movie.Id }, movie);
     }
     
@@ -31,10 +32,11 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
     {
         var movies = requests.Select(r => r.MapToMovie()).ToList();
         var results = await bulkMovieService.BulkCreateAsync(movies, cancellationToken);
-        
+        await outputCacheStore.EvictByTagAsync(CacheKeys.MoviesTag, cancellationToken);
         return Ok(results);
     }
     
+    [OutputCache(PolicyName = CacheKeys.MovieCache)]
     [HttpGet(ApiEndpoints.Movies.Get)]
     public async Task<IActionResult> GetMovie( [FromRoute] string idOrSlug, [FromServices] ILinkBuilder linkBuilder, CancellationToken cancellationToken)
     {
@@ -52,6 +54,7 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
         return Ok(response);
     }
     
+    [OutputCache(PolicyName = CacheKeys.MoviesCache)]
     [HttpGet(ApiEndpoints.Movies.GetAll)]
     public async Task<IActionResult> GetAllMovies([FromQuery] GetAllMoviesRequest request, [FromServices] ILinkBuilder linkBuilder,
         CancellationToken cancellationToken)
@@ -97,7 +100,7 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
         }
 
         var response = updatedMovie.MapToResponse();
-        
+        await outputCacheStore.EvictByTagAsync(CacheKeys.MoviesTag, cancellationToken);
         return Ok(response);
     }
 
@@ -110,7 +113,7 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
         {
             return NotFound();
         }
-
+        await outputCacheStore.EvictByTagAsync(CacheKeys.MoviesTag, cancellationToken);
         return Ok();
     }
     
@@ -123,7 +126,7 @@ public class MoviesController(IMovieService movieService, IBulkMovieService bulk
             {
                 return NotFound();
             }
-
+            await outputCacheStore.EvictByTagAsync(CacheKeys.MoviesTag, cancellationToken);
             return Ok();
     }
      

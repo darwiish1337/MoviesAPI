@@ -65,24 +65,28 @@ public static class PresentationServiceCollectionExtensions
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            // Default policy for general API usage
-            options.AddPolicy("DefaultPolicy", httpContext =>
+            // Policy: Default usage (100 requests/minute per IP)
+            options.AddPolicy(AuthConstants.DefaultPolicyName, context =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
-                    factory: _ => new FixedWindowRateLimiterOptions
+                    context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = 100,
-                        Window = TimeSpan.FromMinutes(1)
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        QueueLimit = 0
                     }));
 
-            // Stricter policy for image uploads
-            options.AddPolicy("ImageUploadPolicy", httpContext =>
+            // Policy: Strict image upload (5 uploads/minute per IP)
+            options.AddPolicy(AuthConstants.ImageUploadPolicyName, context =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
-                    factory: _ => new FixedWindowRateLimiterOptions
+                    context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = 5,
-                        Window = TimeSpan.FromMinutes(1)
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        QueueLimit = 0
                     }));
         });
 
@@ -177,5 +181,4 @@ public static class PresentationServiceCollectionExtensions
 
         return services;
     }
-
 }

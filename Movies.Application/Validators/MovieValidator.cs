@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Movies.Application.Abstractions.Persistence;
+using Movies.Application.Helpers;
 using Movies.Domain.Models;
 
 
@@ -17,10 +18,24 @@ public class MovieValidator : AbstractValidator<Movie>
             .NotEmpty();
 
         RuleFor(x => x.Genres)
-            .NotEmpty();
+            .NotEmpty().WithMessage("At least one genre is required.")
+            .Must(list => list.Count is >= 2 and <= 100).WithMessage("Genres must be between 2 and 100 items.")
+            .ForEach(genre =>
+            {
+                genre
+                    .NotEmpty().WithMessage("Genre cannot be empty.")
+                    .Length(2, 30).WithMessage("Each genre must be between 2 and 30 characters.");
+            });
 
         RuleFor(x => x.Title)
-            .NotEmpty();
+            .Length(2, 100).WithMessage("Title must be between 2 and 100 characters.")
+            .Must(title => !SanitizationHelper.ContainsDangerousContent(title)).WithMessage("Title contains invalid characters.")
+            .Custom((title, context) =>
+            {
+                var cleaned = SanitizationHelper.SanitizeString(title);
+                if (string.IsNullOrWhiteSpace(cleaned))
+                    context.AddFailure("Title cannot be empty or whitespace.");
+            });
 
         RuleFor(x => x.YearOfRelease)
             .LessThanOrEqualTo(DateTime.UtcNow.Year);
@@ -33,6 +48,8 @@ public class MovieValidator : AbstractValidator<Movie>
             .WithMessage("Slug already exists.");
 }
 
+    #region Private Methods
+
     private async Task<bool> ValidateSlug(Movie movie, string slug, CancellationToken cancellationToken = default)
     {
         var existingMovie = await _movieRepository.GetBySlugAsync(slug, cancellationToken: cancellationToken);
@@ -43,12 +60,9 @@ public class MovieValidator : AbstractValidator<Movie>
         return existingMovie is null;       
     }
     
-    private async Task CheckIfMovieExistsAsync(
-        Movie movie,
-        ValidationContext<Movie> ctx,
-        CancellationToken ct)
+    private async Task CheckIfMovieExistsAsync(Movie movie, ValidationContext<Movie> ctx, CancellationToken cancellationToken)
     {
-        var exists = await _movieRepository.ExistsAsync(movie.Title, movie.YearOfRelease, ct);
+        var exists = await _movieRepository.ExistsAsync(movie.Title, movie.YearOfRelease, cancellationToken);
         if (!exists) return;
 
         ctx.AddFailure(nameof(Movie.Title),
@@ -57,5 +71,7 @@ public class MovieValidator : AbstractValidator<Movie>
         ctx.AddFailure(nameof(Movie.YearOfRelease),
             $"Another movie titled '{movie.Title}' already exists for year {movie.YearOfRelease}.");
     }
+
+    #endregion
     
 }

@@ -9,4 +9,6 @@ public static class ConfigurationKeys
     public const string Redis = "Redis";
     
     public const string Database = "Database";
+    
+    public const string Cors = "DefaultCorsPolicy";
 }

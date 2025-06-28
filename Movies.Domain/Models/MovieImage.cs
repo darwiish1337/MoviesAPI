@@ -17,7 +17,7 @@ public  class MovieImage
     
     public required string LargeUrl { get; init; }
     
-    public required string? AltText { get; set; }
+    public required string? AltText { get; init; }
     
     public required int Width { get; init; }
     
@@ -27,9 +27,9 @@ public  class MovieImage
     
     public required string Format { get; init; } 
     
-    public required bool IsPrimary { get; set; }
+    public required bool IsPrimary { get; init; }
     
     public required DateTime CreatedAt { get; init; }
     
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; init; }
 }

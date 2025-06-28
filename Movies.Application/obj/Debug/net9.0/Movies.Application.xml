@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Movies.Application</name>
+    </assembly>
+    <members>
+        <member name="T:Movies.Application.DTOs.Requests.ImageUploadRequest">
+            <summary>
+            Represents a request for uploading and processing an image associated with a movie.
+            This class encapsulates all necessary parameters for image upload, including file data,
+            movie association, image metadata, and processing options like resizing and format conversion.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.File">
+            <summary>
+            The image file to upload.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.MovieId">
+            <summary>
+            The ID of the movie the image is associated with.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.AltText">
+            <summary>
+            Alternative text describing the image for accessibility and SEO.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.IsPrimary">
+            <summary>
+            Indicates whether this image is the primary image for the movie.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.Width">
+            <summary>
+            Optional width (in pixels) to resize the image to.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.Height">
+            <summary>
+            Optional height (in pixels) to resize the image to.
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.Quality">
+            <summary>
+            The quality setting for the image (e.g., "auto", "80", etc.).
+            </summary>
+        </member>
+        <member name="P:Movies.Application.DTOs.Requests.ImageUploadRequest.Format">
+            <summary>
+            The desired output format of the image (e.g., "webp", "jpg").
+            </summary>
+        </member>
+    </members>
+</doc>

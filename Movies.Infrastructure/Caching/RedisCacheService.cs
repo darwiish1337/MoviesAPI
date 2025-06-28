@@ -6,8 +6,7 @@ using StackExchange.Redis;
 
 namespace Movies.Infrastructure.Caching;
 
-public class RedisCacheService(IConnectionMultiplexer redis, IOptions<RedisOptions> options)
-    : ICacheService
+public class RedisCacheService(IConnectionMultiplexer redis, IOptions<RedisOptions> options) : ICacheService
 {
     private readonly IDatabase _database = redis.GetDatabase();
     private readonly RedisOptions _options = options.Value;

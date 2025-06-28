@@ -28,6 +28,7 @@ public partial class Movie
     public required List<string> Genres { get; init; } = [];
     
     public List<MovieImage> Images { get; init; } = [];
+    
     public MovieImage? PrimaryImage
         => Images.FirstOrDefault(x => x.IsPrimary);
     

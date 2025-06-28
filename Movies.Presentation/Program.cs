@@ -11,59 +11,40 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 // -----------------------------
-// Authentication Configuration
+// Configuration Binding
 // -----------------------------
-builder.Services.AddJwtAuthentication(config);
+var corsSettings = config.GetSection(CorsSettings.SectionName).Get<CorsSettings>()!;
+var dbSettings = config.GetSection(ConfigurationKeys.Database).Get<DatabaseSettings>()!;
+builder.Services.Configure<CorsSettings>(config.GetSection(CorsSettings.SectionName));
+builder.Services.AddSingleton(dbSettings);
 
 // -----------------------------
-// Authorization Policies
+// CORS
 // -----------------------------
+builder.Services.AddCorsPolicies(corsSettings);
+
+// -----------------------------
+// Authentication / Authorization
+// -----------------------------
+builder.Services.AddJwtAuthentication(config);
 builder.Services.AddAuthorizationPolicies();
 
 // -----------------------------
-// API Versioning
+// Controllers & API Versioning
 // -----------------------------
+builder.Services.AddControllers();
 builder.Services.AddApiVersioningSupport();
 builder.Services.AddEndpointsApiExplorer();
 
 // -----------------------------
-// Controllers
-// -----------------------------
-builder.Services.AddControllers();
-
-// -----------------------------
-// Swagger Configuration
+// Swagger
 // -----------------------------
 builder.Services.AddSwaggerDocumentation();
 
 // -----------------------------
-// Health Checks
+// Output Caching
 // -----------------------------
-builder.Services.AddCustomHealthChecks();
-
-// -----------------------------
-// Service Registration via Extension Methods
-// -----------------------------
-builder.Services.AddPresentationServices();     // Presentation layer (middlewares, filters)
-builder.Services.AddInfrastructureServices();   // Infrastructure dependencies (Cloudinary, Redis, etc)
-builder.Services.AddApplicationServices();      // Application layer services and validators
-
-// -----------------------------
-// Database Configuration
-// -----------------------------
-var dbSettings = config.GetSection(ConfigurationKeys.Database).Get<DatabaseSettings>()!;
-builder.Services.AddSingleton(dbSettings);
-builder.Services.AddDatabaseServices(dbSettings);
-
-// -----------------------------
-// Rate Limiting
-// -----------------------------
-builder.Services.AddRateLimiting();
-
-// -----------------------------
-// Image Management
-// -----------------------------
-builder.Services.AddImageManagement(config);
+builder.Services.AddCustomOutputCache();
 
 // -----------------------------
 // Validation (FluentValidation)
@@ -72,16 +53,41 @@ builder.Services.AddValidationLayer();
 builder.Services.AddValidation();
 
 // -----------------------------
+// Rate Limiting
+// -----------------------------
+builder.Services.AddRateLimiting();
+
+// -----------------------------
+// Database
+// -----------------------------
+builder.Services.AddDatabaseServices(dbSettings);
+
+// -----------------------------
+// Image Management
+// -----------------------------
+builder.Services.AddImageManagement(config);
+
+// -----------------------------
+// Health Checks
+// -----------------------------
+builder.Services.AddCustomHealthChecks();
+
+// -----------------------------
+// Application / Infrastructure / Presentation Layers
+// -----------------------------
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddPresentationServices();
+
+// -----------------------------
 // Background Services
 // -----------------------------
 builder.Services.AddHostedService<ImageCleanupService>();
 
+// -----------------------------
+// Build App
+// -----------------------------
 var app = builder.Build();
-
-// -----------------------------
-// Map Health Checks Endpoint
-// -----------------------------
-app.MapDynamicHealthCheck();
 
 // -----------------------------
 // Development Tools (Swagger)
@@ -89,11 +95,11 @@ app.MapDynamicHealthCheck();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(x =>
+    app.UseSwaggerUI(options =>
     {
         foreach (var description in app.DescribeApiVersions())
         {
-            x.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
         }
     });
 }
@@ -102,19 +108,27 @@ if (app.Environment.IsDevelopment())
 // Middleware Pipeline
 // -----------------------------
 app.UseHttpsRedirection();
+app.UseCors(ConfigurationKeys.Cors);
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<ValidationMappingMiddleware>(); // Maps FluentValidation errors
-app.UseMiddleware<ImageUploadExceptionMiddleware>(); // Global image exception handler
+app.UseOutputCache();
+
+app.UseMiddleware<RateLimitingResponseMiddleware>();
+app.UseMiddleware<ValidationMappingMiddleware>();
+app.UseMiddleware<ImageUploadExceptionMiddleware>();
+app.UseMiddleware<CspMiddleware>();
+app.UseMiddleware<InputSanitizationMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 
 // -----------------------------
-// Controllers Routing
+// Endpoints
 // -----------------------------
 app.MapControllers();
+app.MapDynamicHealthCheck();
 
 // -----------------------------
-// Database Initialization
+// DB Initialization
 // -----------------------------
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();

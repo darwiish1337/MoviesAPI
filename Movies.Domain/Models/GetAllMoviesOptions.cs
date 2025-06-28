@@ -4,17 +4,17 @@ namespace Movies.Domain.Models;
 
 public class GetAllMoviesOptions
 {
-    public string? Title { get; set; }
+    public string? Title { get; init; }
     
-    public int? YearOfRelease { get; set; }
+    public int? YearOfRelease { get; init; }
     
     public Guid? UserId { get; set; }
     
-    public string? SortField { get; set; }
+    public string? SortField { get; init; }
     
-    public SortOrder? SortOrder { get; set; }
+    public SortOrder? SortOrder { get; init; }
 
-    public int? Page { get; set; } 
+    public int? Page { get; init; } 
 
-    public int? PageSize { get; set; } 
+    public int? PageSize { get; init; } 
 }

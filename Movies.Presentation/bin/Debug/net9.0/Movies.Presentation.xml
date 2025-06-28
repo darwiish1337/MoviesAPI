@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Movies.Presentation</name>
+    </assembly>
+    <members>
+        <member name="T:Movies.Presentation.Controllers.MovieImagesController">
+             <summary>
+             Controller responsible for managing image-related operations for movies.
+             </summary>
+             <remarks>
+             This controller provides a complete set of endpoints for managing images associated with movies,
+             including uploading single or multiple images, retrieving images, updating, setting a primary image,
+             and deleting one or more images. 
+            
+             All image operations are scoped to a specific movie and are protected by rate limiting policies. 
+             The controller supports large file uploads and enforces validation to ensure that image operations
+             are always associated with the correct movie.
+            
+             Use this controller when building features like:
+             - Image galleries for movies
+             - Cover/primary image selection
+             - Media management dashboards
+            
+             All endpoints return standardized HTTP responses, and errors are logged with contextual information.
+             </remarks>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.#ctor(Movies.Application.Abstractions.Services.IImageService,Movies.Application.Abstractions.Services.IBulkImageService,Microsoft.Extensions.Logging.ILogger{Movies.Presentation.Controllers.MovieImagesController})">
+             <summary>
+             Controller responsible for managing image-related operations for movies.
+             </summary>
+             <remarks>
+             This controller provides a complete set of endpoints for managing images associated with movies,
+             including uploading single or multiple images, retrieving images, updating, setting a primary image,
+             and deleting one or more images. 
+            
+             All image operations are scoped to a specific movie and are protected by rate limiting policies. 
+             The controller supports large file uploads and enforces validation to ensure that image operations
+             are always associated with the correct movie.
+            
+             Use this controller when building features like:
+             - Image galleries for movies
+             - Cover/primary image selection
+             - Media management dashboards
+            
+             All endpoints return standardized HTTP responses, and errors are logged with contextual information.
+             </remarks>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.UploadImage(System.Guid,Movies.Application.DTOs.Requests.ImageUploadRequest,System.Threading.CancellationToken)">
+            <summary>
+            Uploads an image for a specific movie.
+            </summary>
+            <param name="id">The ID of the movie to which the image will be uploaded.</param>
+            <param name="request">The image upload request containing the image file and related data.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.AspNetCore.Mvc.ActionResult`1"/> containing the created image details,
+            or an error response in case of failure.
+            </returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.UploadImages(System.Guid,Movies.Application.DTOs.Requests.BulkImageUploadRequest,System.Threading.CancellationToken)">
+            <summary>
+            Uploads multiple images for a specific movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="request">The bulk image upload request containing multiple image files.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>A list of uploaded image details.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.GetMovieImages(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves all images associated with a specific movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>A list of images for the specified movie.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.GetImage(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a specific image by ID for a given movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="imageId">The ID of the image to retrieve.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>The requested image details if found.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.SetPrimaryImage(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Sets an image as the primary image for a movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="imageId">The ID of the image to be set as primary.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>No content if successful, otherwise an error response.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.UpdateImage(System.Guid,System.Guid,Movies.Application.DTOs.Requests.ImageUploadRequest,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing image for a specific movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="imageId">The ID of the image to update.</param>
+            <param name="request">The updated image data.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>The updated image details or an error response.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.DeleteImage(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a specific image from a movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="imageId">The ID of the image to delete.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>No content if successful, otherwise an error response.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.DeleteImages(System.Guid,System.Collections.Generic.List{System.Guid},System.Threading.CancellationToken)">
+            <summary>
+            Deletes multiple images associated with a specific movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="imageIds">A list of image IDs to delete.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>No content if successful, otherwise an error response.</returns>
+        </member>
+        <member name="M:Movies.Presentation.Controllers.MovieImagesController.UpdateImages(System.Guid,System.Collections.Generic.List{Movies.Domain.Models.MovieImage},System.Threading.CancellationToken)">
+            <summary>
+            Updates multiple images associated with a specific movie.
+            </summary>
+            <param name="id">The ID of the movie.</param>
+            <param name="images">List of image models to update.</param>
+            <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+            <returns>No content if successful, otherwise an error response.</returns>
+        </member>
+        <member name="T:Movies.Presentation.Swagger.SwaggerTagDescriptionsFilter">
+            <summary>
+            Custom Swagger document filter to extract controller summaries from XML docs
+            and register them as tags with descriptions in the Swagger UI.
+            </summary>
+        </member>
+    </members>
+</doc>

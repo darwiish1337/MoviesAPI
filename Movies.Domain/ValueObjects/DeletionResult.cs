@@ -2,7 +2,7 @@
 
 public class DeletionResult
 {
-    public string Result { get; set; } = string.Empty;
+    public string Result { get; init; } = string.Empty;
     public bool IsSuccess => Result == "ok";
-    public string? Error { get; set; }
+    public string? Error { get; init; }
 }

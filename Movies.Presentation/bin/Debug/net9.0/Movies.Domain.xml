@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Movies.Domain</name>
+    </assembly>
+    <members>
+        <member name="M:Movies.Domain.Models.Movie.SlugRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>[^\\p{L}\\p{N} _-]</code><br/>
+            Options:<br/>
+            <code>RegexOptions.NonBacktracking</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match a character in the set [^ -_\p{L}\p{N}].<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SlugRegex_0">
+            <summary>Caches a <see cref="T:System.Text.RegularExpressions.Regex"/> instance for the SlugRegex method.</summary>
+            <remarks>A custom Regex-derived type could not be generated because RegexOptions.NonBacktracking isn't supported.</remarks>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.SlugRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+    </members>
+</doc>

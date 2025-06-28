@@ -49,4 +49,45 @@ public static class InfrastructureServiceCollectionExtensions
 
         return services;
     }
+    
+    public static IServiceCollection AddCorsPolicies(this IServiceCollection services, CorsSettings corsSettings)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy(ConfigurationKeys.Cors, builder =>
+            {
+                builder.WithOrigins(corsSettings.AllowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomOutputCache(this IServiceCollection service)
+    {
+        service.AddOutputCache(options =>
+        {
+            options.AddBasePolicy(policyBuilder => policyBuilder.Cache());
+
+            options.AddPolicy(CacheKeys.MoviesCache, policyBuilder =>
+            {
+                policyBuilder.Cache()
+                    .Expire(TimeSpan.FromMinutes(1))
+                    .SetVaryByQuery(CacheKeys.MovieFilters)
+                    .Tag(CacheKeys.MoviesTag);
+            });
+    
+            options.AddPolicy(CacheKeys.MovieCache, policyBuilder =>
+            {
+                policyBuilder.Cache()
+                    .Expire(TimeSpan.FromMinutes(1))
+                    .Tag(CacheKeys.MovieTag);
+            });
+        });
+        
+        return service;       
+    }
 }
